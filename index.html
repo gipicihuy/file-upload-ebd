@@ -1,91 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload File GH</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/0d/71/2a/0d712a0b6805c0b44386339048bdfce5.jpg?format=png&name=900x900">
-    <style>
-        /* Custom styles for a more modern look */
-        body {
-            background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        .card-glow {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 30px rgba(124, 58, 237, 0.6); /* Purple glow */
-            transition: all 0.3s ease-in-out;
-        }
-        .card-glow:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1), 0 6px 8px -3px rgba(0, 0, 0, 0.08), 0 0 40px rgba(167, 139, 250, 0.8); /* Lighter purple on hover */
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBD Upload to GH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/0d/71/2a/0d712a0b6805c0b44386339048bdfce5.jpg?format=png&name=900x900">
+    <style>
+        body {
+            background-color: #1a202c; /* Warna latar belakang gelap */
+        }
+        .drag-area {
+            border: 2px dashed #4a5568;
+            transition: all 0.3s ease-in-out;
+        }
+        .drag-area.active {
+            border-color: #63b3ed; /* Warna border saat aktif */
+            background-color: rgba(30, 41, 59, 0.5); /* Latar belakang transparan */
+        }
+    </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
-    <p align="center" class="mb-8">
-        <img src="https://media.tenor.com/yWaLIc5J9WgAAAAj/momoi.gif" class="rounded-lg shadow-lg max-w-full h-auto" style="max-width: 250px;" alt="Animated GIF">
-    </p>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-lg bg-gray-800 p-8 rounded-lg shadow-2xl text-center border border-gray-700">
+        <h1 class="text-3xl font-bold text-white mb-6">EBD Upload to GH</h1>
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <label for="fileInput" class="drag-area block w-full h-48 p-4 rounded-lg cursor-pointer flex flex-col items-center justify-center text-gray-400 mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                </svg>
+                <p class="text-lg font-semibold">Tarik dan Letakkan File</p>
+                <p class="text-sm">atau klik untuk memilih file</p>
+                <input type="file" name="file" id="fileInput" class="hidden">
+            </label>
+            <p id="fileName" class="text-sm text-gray-400 mb-4"></p>
+            <button type="submit" id="uploadButton" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900">
+                Unggah
+            </button>
+            <div id="loadingIndicator" class="hidden mt-4">
+                <svg class="animate-spin h-7 w-7 text-indigo-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
+        </form>
+    </div>
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadButton = document.getElementById('uploadButton');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileName');
+        const dragArea = document.querySelector('.drag-area');
 
-    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md card-glow transform hover:scale-105 transition duration-300">
-        <h1 class="text-3xl font-extrabold text-center mb-6 text-gray-800">Upload File ke github</h1>
-      <!---  <p class="text-center text-gray-600 mb-6 text-md">Ukuran file maksimal: <span class="font-semibold text-indigo-600">4.5 MB</span></p> --->
+        // Handle form submission for loading indicator
+        uploadForm.addEventListener('submit', () => {
+            uploadButton.disabled = true;
+            uploadButton.classList.add('opacity-50', 'cursor-not-allowed');
+            loadingIndicator.classList.remove('hidden');
+        });
 
-        <form ref="uploadForm" id="uploadForm" action="/upload" method="post" encType="multipart/form-data" class="space-y-6">
-            <label class="block">
-                <span class="sr-only">Choose file</span>
-                <input type="file" name="file" class="block w-full text-sm text-gray-700
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-indigo-600 file:text-white
-                    hover:file:bg-indigo-700
-                    cursor-pointer transition duration-200 ease-in-out
-                "/>
-            </label>
-            
-            <div class="flex justify-center items-center space-x-4">
-                <button type="submit" id="uploadButton" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700
-                    text-white font-bold py-3 px-8 rounded-full shadow-lg
-                    transform hover:scale-105 transition duration-300 ease-in-out
-                    focus:outline-none focus:ring-4 focus:ring-purple-300">
-                    Upload File
-                </button>
-                <div id="loadingIndicator" class="hidden">
-                    <svg class="animate-spin h-7 w-7 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                </div>
-            </div>
-        </form>
-    </div>
+        // Update file name display
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = `File dipilih: ${fileInput.files[0].name}`;
+            }
+        });
 
-    <p align="center" class="mt-8 text-white text-lg font-medium">
-        Source code:
-    </p>
-    <p align="center" class="mt-2">
-        <a href="https://github.com/iyayn-ajah/web-uploadfile-to-github" target="_blank" rel="noopener noreferrer">
-            <img title="Author"
-                src="https://img.shields.io/badge/GITHUB-gray.svg?style=for-the-badge&logo=github"
-                alt="GitHub Repository">
-        </a>
-    </p>
-    <center class="mt-8">
-        <audio autoplay="autoplay" controls="controls" src="https://files.catbox.moe/ar2c1c.mp3" class="rounded-lg shadow-md"></audio>
-    </center>
+        // Drag and drop events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dragArea.addEventListener(eventName, preventDefaults, false);
+        });
 
-    <script>
-        const uploadForm = document.getElementById('uploadForm');
-        const uploadButton = document.getElementById('uploadButton');
-        const loadingIndicator = document.getElementById('loadingIndicator');
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
 
-        uploadForm.addEventListener('submit', () => {
-            uploadButton.disabled = true;
-            uploadButton.classList.add('opacity-50', 'cursor-not-allowed'); // Add disabled styling
-            loadingIndicator.classList.remove('hidden');
-        });
-    </script>
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dragArea.addEventListener(eventName, () => dragArea.classList.add('active'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dragArea.addEventListener(eventName, () => dragArea.classList.remove('active'), false);
+        });
+
+        dragArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            fileNameDisplay.textContent = `File dipilih: ${files[0].name}`;
+        }
+    </script>
 </body>
 </html>
