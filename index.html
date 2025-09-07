@@ -3,35 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crimson Uploader</title>
+    <title>Crimson Upload | Dark Red File Hosting</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/x-icon" href="https://i.imgur.com/3QzZ2yE.png">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            background: linear-gradient(135deg, #2a0a0a 0%, #1a0000 100%);
+            background: linear-gradient(135deg, #1a0000 0%, #2a0a0a 50%, #1a0000 100%);
             background-attachment: fixed;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffcccc;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
+        
         .crimson-glow {
-            box-shadow: 0 10px 25px -5px rgba(139, 0, 0, 0.5), 
-                        0 5px 10px -3px rgba(139, 0, 0, 0.4),
-                        0 0 20px rgba(178, 34, 34, 0.6);
+            box-shadow: 0 10px 25px -5px rgba(139, 0, 0, 0.7), 
+                        0 5px 10px -3px rgba(139, 0, 0, 0.5),
+                        0 0 20px rgba(178, 34, 34, 0.8);
             transition: all 0.3s ease;
         }
+        
         .crimson-glow:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px -5px rgba(139, 0, 0, 0.6), 
-                        0 8px 15px -3px rgba(139, 0, 0, 0.5),
-                        0 0 25px rgba(220, 20, 60, 0.7);
+            box-shadow: 0 15px 30px -5px rgba(139, 0, 0, 0.8), 
+                        0 8px 15px -3px rgba(139, 0, 0, 0.6),
+                        0 0 25px rgba(220, 20, 60, 0.9);
         }
+        
         .blood-pattern {
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(120, 0, 0, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(120, 0, 0, 0.1) 0%, transparent 20%);
+                radial-gradient(circle at 10% 20%, rgba(120, 0, 0, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(120, 0, 0, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(90, 0, 0, 0.1) 0%, transparent 30%);
         }
+        
         .file-input-custom::file-selector-button {
             background: #8B0000;
-            color: white;
+            color: #ffcccc;
             border: none;
             padding: 0.5rem 1rem;
             border-radius: 9999px;
@@ -40,31 +54,72 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
+        
         .file-input-custom::file-selector-button:hover {
+            background: #990000;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 0, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 0, 0, 0); }
+        }
+        
+        .decoration {
+            position: absolute;
+            background: rgba(139, 0, 0, 0.1);
+            border: 1px solid rgba(139, 0, 0, 0.3);
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a0000;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #8B0000;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
             background: #990000;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4 blood-pattern">
-    <div class="mb-10 text-center">
-        <h1 class="text-4xl font-bold text-red-200 mb-2">Crimson Uploader</h1>
-        <p class="text-red-300">Upload files directly to GitHub repository</p>
+<body class="blood-pattern flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden">
+    <!-- Background decorations -->
+    <div class="decoration w-64 h-64 rounded-full -top-32 -left-32"></div>
+    <div class="decoration w-32 h-32 rounded-full top-1/4 -right-16"></div>
+    <div class="decoration w-40 h-40 rounded-full bottom-32 -left-20"></div>
+    <div class="decoration w-24 h-24 rounded-full bottom-1/4 -right-12"></div>
+    
+    <div class="mb-8 text-center z-10">
+        <h1 class="text-5xl font-bold text-red-200 mb-3 bg-gradient-to-r from-red-300 to-red-500 bg-clip-text text-transparent">Crimson Upload</h1>
+        <p class="text-red-300/90 text-lg">Direct file hosting to GitHub</p>
     </div>
 
-    <div class="bg-[#1f0000] border border-red-900 p-10 rounded-2xl w-full max-w-xl crimson-glow">
+    <div class="bg-[#1a0000] border border-red-900/80 p-8 rounded-2xl w-full max-w-xl crimson-glow z-10 backdrop-blur-sm">
         <div class="text-center mb-8">
-            <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-red-800/50">
+            <div class="w-36 h-36 mx-auto mb-6 rounded-full overflow-hidden border-4 border-red-800/50 pulse">
                 <img src="https://media.tenor.com/2yehGvPzIsIAAAAj/miku-hatsune.gif" alt="Animated GIF" class="w-full h-full object-cover">
             </div>
-            <h2 class="text-2xl font-bold text-red-100 mb-2">Select File to Upload</h2>
-            <p class="text-red-300/80">Secure and fast file hosting</p>
+            <h2 class="text-2xl font-bold text-red-100 mb-2">Upload Your File</h2>
+            <p class="text-red-300/80">Secure, fast, and reliable file hosting</p>
         </div>
 
         <form ref="uploadForm" id="uploadForm" action="/upload" method="post" encType="multipart/form-data" class="space-y-8">
             <label class="block">
                 <span class="sr-only">Choose file</span>
                 <input type="file" name="file" class="file-input-custom block w-full text-sm text-red-200
-                    bg-red-900/20 rounded-xl border border-red-800/50
+                    bg-red-900/30 rounded-xl border border-red-800/50
                     p-4 focus:outline-none focus:ring-2 focus:ring-red-700
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
@@ -77,11 +132,11 @@
             
             <div class="flex flex-col items-center space-y-4">
                 <div class="flex items-center space-x-4">
-                    <button type="submit" id="uploadButton" class="bg-gradient-to-r from-red-700 to-red-900 hover:from-red-600 hover:to-red-800
+                    <button type="submit" id="uploadButton" class="bg-gradient-to-r from-red-800 to-red-900 hover:from-red-700 hover:to-red-800
                         text-red-100 font-bold py-3 px-10 rounded-full
                         transform hover:scale-105 transition duration-300 ease-in-out
                         focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50
-                        flex items-center">
+                        flex items-center border border-red-700/50">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                         </svg>
@@ -99,22 +154,26 @@
         </form>
     </div>
 
-    <div class="mt-12 text-center">
+    <div class="mt-12 text-center z-10">
         <p class="text-red-300/80 mb-4">Powered by GitHub API</p>
-        <a href="https://github.com/your-repo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-red-400 hover:text-red-300 transition">
-            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+        <a href="https://github.com/your-repo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-red-400 hover:text-red-300 transition bg-red-900/30 py-2 px-4 rounded-full border border-red-800/50">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
             </svg>
             View Source Code
         </a>
     </div>
 
-    <div class="mt-8 w-full max-w-md">
-        <audio controls class="w-full rounded-lg bg-red-900/20">
+    <div class="mt-8 w-full max-w-md z-10">
+        <audio controls class="w-full rounded-lg bg-red-900/30 border border-red-800/50">
             <source src="https://files.catbox.moe/ar2c1c.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
     </div>
+
+    <footer class="mt-12 text-center text-red-400/60 text-sm z-10">
+        <p>© 2023 Crimson Upload | Dark Red File Hosting</p>
+    </footer>
 
     <script>
         const uploadForm = document.getElementById('uploadForm');
@@ -125,6 +184,22 @@
             uploadButton.disabled = true;
             uploadButton.classList.add('opacity-50', 'cursor-not-allowed');
             loadingIndicator.classList.remove('hidden');
+        });
+        
+        // Add subtle background animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const decorations = document.querySelectorAll('.decoration');
+            decorations.forEach((dec, index) => {
+                // Animate each decoration with a slight delay
+                setTimeout(() => {
+                    dec.style.transition = 'all 3s ease';
+                    dec.style.transform = 'scale(1.1)';
+                    
+                    setInterval(() => {
+                        dec.style.transform = dec.style.transform === 'scale(1.1)' ? 'scale(1)' : 'scale(1.1)';
+                    }, 3000 + (index * 1000));
+                }, index * 500);
+            });
         });
     </script>
 </body>
