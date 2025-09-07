@@ -39,15 +39,32 @@ app.post('/upload', async (req, res) => {
         <title>Error - Crimson Upload</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          
           body {
             background: linear-gradient(135deg, #1a0000 0%, #2a0a0a 50%, #1a0000 100%);
+            background-attachment: fixed;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #ffcccc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          
+          .crimson-glow {
+            box-shadow: 0 10px 25px -5px rgba(139, 0, 0, 0.7), 
+                        0 5px 10px -3px rgba(139, 0, 极速上传0, 0.5),
+                        0 0 20px rgba(178, 34, 34, 0.8);
           }
         </style>
       </head>
-      <body class="flex items-center justify-center min-h-screen">
-        <div class="bg-[#1a0000] border border-red-900/80 p-8 rounded-2xl max-w-md text-center">
+      <body>
+        <div class="bg-[#1a0000] border border-red-900/80 p-8 rounded-2xl max-w-md text-center crimson-glow">
           <h1 class="text-2xl font-bold text-red-200 mb-4">Upload Error</h1>
           <p class="text-red-300 mb-6">No files were selected for upload.</p>
           <a href="/" class="bg-red-800 text-red-100 px-6 py-2 rounded-full hover:bg-red-700 transition">Go Back</a>
@@ -61,7 +78,7 @@ app.post('/upload', async (req, res) => {
   let mimeType = mime.lookup(uploadedFile.name);
   let fileName = `${Date.now()}-${uploadedFile.name.replace(/\s+/g, '-')}`;
   let filePath = `uploads/${fileName}`;
-  let base64Content = Buffer.from(uploadedFile.data).toString('base64');
+  let base64极速上传Content = Buffer.from(uploadedFile.data).toString('base64');
 
   try {
     let response = await axios.put(
@@ -92,20 +109,38 @@ app.post('/upload', async (req, res) => {
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="icon" type="image/x-icon" href="https://i.imgur.com/3QzZ2yE.png">
         <style>
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          
           body {
             background: linear-gradient(135deg, #1a0000 0%, #2a0a0a 50%, #1a0000 100%);
             background-attachment: fixed;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #ffcccc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
+          
           .crimson-glow {
-            box-shadow: 0 10px 25px -5px rgba(139, 0, 0, 0.7), 
+            box-shadow: 0 10极速上传px 25px -5px rgba(139, 0, 0, 0.7), 
                         0 5px 10px -3px rgba(139, 0, 0, 0.5),
                         0 0 20px rgba(178, 34, 34, 0.8);
           }
+          
+          .blood-pattern {
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(120, 0, 0, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(120, 0, 0, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(90, 0, 0, 0.1) 0%, transparent 30%);
+          }
         </style>
       </head>
-      <body class="flex flex-col items-center justify-center min-h-screen p-4">
+      <body class="blood-pattern p-4">
         <div class="bg-[#1a0000] border border-red-900/80 p-8 rounded-2xl w-full max-w-xl crimson-glow">
           <div class="text-center mb-8">
             <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-red-800/50">
@@ -122,7 +157,7 @@ app.post('/upload', async (req, res) => {
           <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
             <button onclick="copyUrl()" class="w-full sm:w-1/2 bg-red-800 hover:bg-red-700 text-red-100 font-bold py-3 px-4 rounded-full transition focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center justify-center">
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2极速上传v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 极速上传5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
               </svg>
               Copy URL
             </button>
@@ -159,15 +194,32 @@ app.post('/upload', async (req, res) => {
         <title>Error - Crimson Upload</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          
           body {
             background: linear-gradient(135deg, #1a0000 0%, #2a0a0a 50%, #1a0000 100%);
+            background-attachment: fixed;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #ffcccc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          
+          .crimson-glow {
+            box-shadow: 0 10px 25px -5px rgba(139, 0, 0, 0.7), 
+                        0 5px 10px -3px rgba(139, 0, 0, 0.5),
+                        0 0 20px rgba(178, 34, 34, 0.8);
           }
         </style>
       </head>
-      <body class="flex items-center justify-center min-h-screen">
-        <div class="bg-[#1a0000] border border-red-900/80 p-8 rounded-2xl max-w-md text-center">
+      <body>
+        <div class="bg-[#1a0000] border border-red-900/80 p-8 rounded-2xl max-w-md text-center crimson-glow">
           <h1 class="text-2xl font-bold text-red-200 mb-4">Upload Error</h1>
           <p class="text-red-300 mb-6">There was an error uploading your file. Please try again.</p>
           <a href="/" class="bg-red-800 text-red-100 px-6 py-2 rounded-full hover:bg-red-700 transition">Go Back</a>
