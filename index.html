@@ -5,24 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EBD Upload to GH</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/0d/71/2a/0d712a0b6805c0b44386339048bdfce5.jpg?format=png&name=900x900">
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/r2KDVBJC/IMG-20241225-WA0318.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Latar Belakang dan Gaya Dasar */
         body {
-            background-color: #1a202c; /* Warna latar belakang gelap */
+            background-color: #1a202c;
         }
-        .drag-area {
+        .upload-area {
             border: 2px dashed #4a5568;
             transition: all 0.3s ease-in-out;
         }
-        .drag-area.active {
-            border-color: #63b3ed; /* Warna border saat aktif */
-            background-color: rgba(30, 41, 59, 0.5); /* Latar belakang transparan */
+        .upload-area.active {
+            border-color: #63b3ed;
+            background-color: rgba(30, 41, 59, 0.5);
         }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen">
     <div class="w-full max-w-lg bg-gray-800 p-8 rounded-lg shadow-2xl text-center border border-gray-700">
         <h1 class="text-3xl font-bold text-white mb-6">EBD Upload to GH</h1>
+        <p class="text-gray-400 mb-6">Unggah file Anda ke GitHub.</p>
         <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
             <label for="fileInput" class="drag-area block w-full h-48 p-4 rounded-lg cursor-pointer flex flex-col items-center justify-center text-gray-400 mb-6">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
