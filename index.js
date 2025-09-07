@@ -55,65 +55,82 @@ app.post('/upload', async (req, res) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unggahan Berhasil - EBD</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/0d/71/2a/0d712a0b6805c0b44386339048bdfce5.jpg?format=png&name=900x900">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to right top, #2a0a0a, #3d0f0f, #521414, #681919, #7f1e1e);
-            background-size: cover;
-            background-attachment: fixed;
-            color: #f0d9d9;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            color: #e2e8f0;
         }
-        .card-glow {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 
-                        0 4px 6px -2px rgba(0, 0, 0, 0.2), 
-                        0 0 30px rgba(139, 0, 0, 0.6);
-            transition: all 0.3s ease-in-out;
-            background: rgba(60, 15, 15, 0.7);
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+        }
+        
+        .glass-button {
+            background: rgba(167, 139, 250, 0.2);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(139, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
-        .card-glow:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.3), 
-                        0 6px 8px -3px rgba(0, 0, 0, 0.25), 
-                        0 0 40px rgba(178, 34, 34, 0.7);
+        
+        .glass-button:hover {
+            background: rgba(167, 139, 250, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-        .glass {
-            background: rgba(90, 25, 25, 0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(139, 0, 0, 0.2);
+        
+        .floating { 
+            animation: floating 3s ease-in-out infinite;
         }
-        .btn-primary {
-            background: linear-gradient(to right, #8B0000, #A52A2A);
-        }
-        .btn-primary:hover {
-            background: linear-gradient(to right, #A52A2A, #B22222);
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 10px); }
+            100% { transform: translate(0, -0px); }
         }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
-    <div class="p-8 rounded-xl w-full max-w-md card-glow transform hover:scale-105 transition duration-300">
-        <div class="mb-6">
-            <img src="https://media.tenor.com/yWaLIc5J9WgAAAAj/momoi.gif" alt="Momoi GIF" class="mx-auto rounded-full h-32 w-32 object-cover shadow-lg border-4 border-[#8B0000]">
+    <div class="glass-card p-8 w-full max-w-md transform transition-all duration-300">
+        <div class="mb-6 text-center">
+            <div class="floating inline-block">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
         </div>
-        <h1 class="text-3xl font-extrabold text-center mb-4 text-white">Unggahan Berhasil!</h1>
-        <div class="text-center mb-6 text-md glass p-3 rounded-lg">
+        <h1 class="text-3xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-400">Unggahan Berhasil!</h1>
+        <div class="text-center mb-6 text-md glass-card p-3 rounded-lg">
             File Anda berhasil diunggah. Berikut adalah tautan URL langsungnya:
         </div>
-        <div class="text-center mb-6 p-3 glass rounded-lg break-words shadow-inner">
-            <a id="rawUrlLink" href="${rawUrl}" class="text-[#F8C8C8] hover:text-white font-semibold text-lg transition duration-200 ease-in-out">${rawUrl}</a>
+        <div class="text-center mb-6 p-3 glass-card rounded-lg break-words">
+            <a id="rawUrlLink" href="${rawUrl}" class="text-green-300 hover:text-green-100 font-semibold text-lg transition duration-200 ease-in-out">${rawUrl}</a>
         </div>
         <div class="flex justify-between items-center space-x-4">
-            <button onclick="copyUrl()" class="w-1/2 btn-primary text-white font-bold py-3 px-4 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-[#8B0000]">
+            <button onclick="copyUrl()" class="w-1/2 glass-button text-white font-bold py-3 px-4 rounded-full transform hover:scale-105 transition duration-300 ease-in-out">
                 Salin URL
             </button>
-            <a href="/" class="w-1/2 flex items-center justify-center glass hover:bg-[#3d0f0f] text-white font-bold py-3 px-4 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-[#3d0f0f]">
+            <a href="/" class="w-1/2 flex items-center justify-center glass-button text-white font-bold py-3 px-4 rounded-full transform hover:scale-105 transition duration-300 ease-in-out">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                🔙 Kembali
+                Kembali
             </a>
         </div>
     </div>
@@ -132,10 +149,42 @@ app.post('/upload', async (req, res) => {
 `);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error uploading file.');
+    res.status(500).send(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Error - EBD Upload</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+          body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #e2e8f0;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="bg-red-900 bg-opacity-50 backdrop-filter backdrop-blur-lg p-8 rounded-xl shadow-2xl max-w-md text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-red-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h2 class="text-2xl font-bold text-red-200 mb-2">Error Mengunggah File</h2>
+          <p class="text-red-100 mb-6">Terjadi kesalahan saat mengunggah file. Silakan coba lagi.</p>
+          <a href="/" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
+            Kembali
+          </a>
+        </div>
+      </body>
+      </html>
+    `);
   }
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server EBD Upload running at http://localhost:${port}`);
 });
