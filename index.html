@@ -1,100 +1,131 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EBD Upload to GH</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/r2KDVBJC/IMG-20241225-WA0318.jpg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Latar Belakang dan Gaya Dasar */
-        body {
-            background-color: #1a202c;
-        }
-        .upload-area {
-            border: 2px dashed #4a5568;
-            transition: all 0.3s ease-in-out;
-        }
-        .upload-area.active {
-            border-color: #63b3ed;
-            background-color: rgba(30, 41, 59, 0.5);
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crimson Uploader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/3QzZ2yE.png">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2a0a0a 0%, #1a0000 100%);
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .crimson-glow {
+            box-shadow: 0 10px 25px -5px rgba(139, 0, 0, 0.5), 
+                        0 5px 10px -3px rgba(139, 0, 0, 0.4),
+                        0 0 20px rgba(178, 34, 34, 0.6);
+            transition: all 0.3s ease;
+        }
+        .crimson-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px rgba(139, 0, 0, 0.6), 
+                        0 8px 15px -3px rgba(139, 0, 0, 0.5),
+                        0 0 25px rgba(220, 20, 60, 0.7);
+        }
+        .blood-pattern {
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(120, 0, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(120, 0, 0, 0.1) 0%, transparent 20%);
+        }
+        .file-input-custom::file-selector-button {
+            background: #8B0000;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            margin-right: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .file-input-custom::file-selector-button:hover {
+            background: #990000;
+        }
+    </style>
 </head>
-<body class="flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-lg bg-gray-800 p-8 rounded-lg shadow-2xl text-center border border-gray-700">
-        <h1 class="text-3xl font-bold text-white mb-6">EBD Upload to GH</h1>
-        <p class="text-gray-400 mb-6">Unggah file Anda ke GitHub.</p>
-        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
-            <label for="fileInput" class="drag-area block w-full h-48 p-4 rounded-lg cursor-pointer flex flex-col items-center justify-center text-gray-400 mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-                </svg>
-                <p class="text-lg font-semibold">Tarik dan Letakkan File</p>
-                <p class="text-sm">atau klik untuk memilih file</p>
-                <input type="file" name="file" id="fileInput" class="hidden">
-            </label>
-            <p id="fileName" class="text-sm text-gray-400 mb-4"></p>
-            <button type="submit" id="uploadButton" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900">
-                Unggah
-            </button>
-            <div id="loadingIndicator" class="hidden mt-4">
-                <svg class="animate-spin h-7 w-7 text-indigo-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-            </div>
-        </form>
-    </div>
-    <script>
-        const uploadForm = document.getElementById('uploadForm');
-        const uploadButton = document.getElementById('uploadButton');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const fileInput = document.getElementById('fileInput');
-        const fileNameDisplay = document.getElementById('fileName');
-        const dragArea = document.querySelector('.drag-area');
+<body class="flex flex-col items-center justify-center min-h-screen p-4 blood-pattern">
+    <div class="mb-10 text-center">
+        <h1 class="text-4xl font-bold text-red-200 mb-2">Crimson Uploader</h1>
+        <p class="text-red-300">Upload files directly to GitHub repository</p>
+    </div>
 
-        // Handle form submission for loading indicator
-        uploadForm.addEventListener('submit', () => {
-            uploadButton.disabled = true;
-            uploadButton.classList.add('opacity-50', 'cursor-not-allowed');
-            loadingIndicator.classList.remove('hidden');
-        });
+    <div class="bg-[#1f0000] border border-red-900 p-10 rounded-2xl w-full max-w-xl crimson-glow">
+        <div class="text-center mb-8">
+            <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-red-800/50">
+                <img src="https://media.tenor.com/2yehGvPzIsIAAAAj/miku-hatsune.gif" alt="Animated GIF" class="w-full h-full object-cover">
+            </div>
+            <h2 class="text-2xl font-bold text-red-100 mb-2">Select File to Upload</h2>
+            <p class="text-red-300/80">Secure and fast file hosting</p>
+        </div>
 
-        // Update file name display
-        fileInput.addEventListener('change', () => {
-            if (fileInput.files.length > 0) {
-                fileNameDisplay.textContent = `File dipilih: ${fileInput.files[0].name}`;
-            }
-        });
+        <form ref="uploadForm" id="uploadForm" action="/upload" method="post" encType="multipart/form-data" class="space-y-8">
+            <label class="block">
+                <span class="sr-only">Choose file</span>
+                <input type="file" name="file" class="file-input-custom block w-full text-sm text-red-200
+                    bg-red-900/20 rounded-xl border border-red-800/50
+                    p-4 focus:outline-none focus:ring-2 focus:ring-red-700
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-red-700 file:text-red-100
+                    hover:file:bg-red-600
+                    cursor-pointer transition duration-200
+                "/>
+            </label>
+            
+            <div class="flex flex-col items-center space-y-4">
+                <div class="flex items-center space-x-4">
+                    <button type="submit" id="uploadButton" class="bg-gradient-to-r from-red-700 to-red-900 hover:from-red-600 hover:to-red-800
+                        text-red-100 font-bold py-3 px-10 rounded-full
+                        transform hover:scale-105 transition duration-300 ease-in-out
+                        focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50
+                        flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        Upload File
+                    </button>
+                    <div id="loadingIndicator" class="hidden">
+                        <svg class="animate-spin h-8 w-8 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-red-400/70 text-sm mt-2">Max file size: 25MB</p>
+            </div>
+        </form>
+    </div>
 
-        // Drag and drop events
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dragArea.addEventListener(eventName, preventDefaults, false);
-        });
+    <div class="mt-12 text-center">
+        <p class="text-red-300/80 mb-4">Powered by GitHub API</p>
+        <a href="https://github.com/your-repo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-red-400 hover:text-red-300 transition">
+            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            View Source Code
+        </a>
+    </div>
 
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+    <div class="mt-8 w-full max-w-md">
+        <audio controls class="w-full rounded-lg bg-red-900/20">
+            <source src="https://files.catbox.moe/ar2c1c.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dragArea.addEventListener(eventName, () => dragArea.classList.add('active'), false);
-        });
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadButton = document.getElementById('uploadButton');
+        const loadingIndicator = document.getElementById('loadingIndicator');
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            dragArea.addEventListener(eventName, () => dragArea.classList.remove('active'), false);
-        });
-
-        dragArea.addEventListener('drop', handleDrop, false);
-
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            fileInput.files = files;
-            fileNameDisplay.textContent = `File dipilih: ${files[0].name}`;
-        }
-    </script>
+        uploadForm.addEventListener('submit', () => {
+            uploadButton.disabled = true;
+            uploadButton.classList.add('opacity-50', 'cursor-not-allowed');
+            loadingIndicator.classList.remove('hidden');
+        });
+    </script>
 </body>
 </html>
