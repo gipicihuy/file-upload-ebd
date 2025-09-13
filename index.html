@@ -3,88 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload File GH</title>
+    <title>EBDUpload - File Sharing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/x-icon" href="https://eberardos.my.id/eberardos.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom styles for a more modern look */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
         body {
-            background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-            background-size: cover;
-            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
-        .card-glow {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 30px rgba(124, 58, 237, 0.6); /* Purple glow */
-            transition: all 0.3s ease-in-out;
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .card-glow:hover {
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 4, 58, 0.4);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .file-input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .file-input:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed rgba(99, 102, 241, 0.5);
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1), 0 6px 8px -3px rgba(0, 0, 0, 0.08), 0 0 40px rgba(167, 139, 250, 0.8); /* Lighter purple on hover */
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .upload-progress {
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            width: 0%;
+            transition: width 0.3s ease;
         }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
-    <p align="center" class="mb-8">
-        <img src="https://media.tenor.com/yWaLIc5J9WgAAAAj/momoi.gif" class="rounded-lg shadow-lg max-w-full h-auto" style="max-width: 250px;" alt="Animated GIF">
-    </p>
+    <!-- Animated background elements -->
+    <div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
+        <div class="absolute top-10 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-soft-light filter blur-3xl opacity-10 animate-pulse"></div>
+        <div class="absolute top-40 right-10 w-72 h-72 bg-indigo-300 rounded-full mix-blend-soft-light filter blur-3xl opacity-10 animate-pulse delay-1000"></div>
+        <div class="absolute bottom-10 left-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-soft-light filter blur-3xl opacity-10 animate-pulse delay-2000"></div>
+    </div>
 
-    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md card-glow transform hover:scale-105 transition duration-300">
-        <h1 class="text-3xl font-extrabold text-center mb-6 text-gray-800">Upload File ke github</h1>
-      <!---  <p class="text-center text-gray-600 mb-6 text-md">Ukuran file maksimal: <span class="font-semibold text-indigo-600">4.5 MB</span></p> --->
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-white mb-2">NeoUpload</h1>
+        <p class="text-indigo-200">Fast, secure file sharing with GitHub</p>
+    </div>
+
+    <div class="glass-card p-8 w-full max-w-md mb-10">
+        <div class="text-center mb-6">
+            <div class="floating inline-block p-4 bg-indigo-500 rounded-2xl mb-4">
+                <i class="fas fa-cloud-upload-alt text-white text-4xl"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-white">Upload Your File</h2>
+            <p class="text-gray-300 mt-1">Files will be stored securely on GitHub</p>
+        </div>
 
         <form ref="uploadForm" id="uploadForm" action="/upload" method="post" encType="multipart/form-data" class="space-y-6">
-            <label class="block">
-                <span class="sr-only">Choose file</span>
-                <input type="file" name="file" class="block w-full text-sm text-gray-700
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-indigo-600 file:text-white
-                    hover:file:bg-indigo-700
-                    cursor-pointer transition duration-200 ease-in-out
-                "/>
-            </label>
+            <div class="file-input rounded-2xl p-8 text-center cursor-pointer" id="dropZone">
+                <i class="fas fa-file-upload text-4xl text-indigo-300 mb-3"></i>
+                <p class="text-gray-300 mb-2">Drag & drop your file here</p>
+                <p class="text-gray-400 text-sm mb-4">or</p>
+                <label class="btn-primary text-white font-medium py-3 px-6 rounded-lg cursor-pointer inline-block">
+                    <i class="fas fa-folder-open mr-2"></i>Browse Files
+                    <input type="file" name="file" class="hidden" id="fileInput">
+                </label>
+                <p class="text-gray-400 text-xs mt-4" id="fileInfo">Maximum file size: 25MB</p>
+            </div>
             
-            <div class="flex justify-center items-center space-x-4">
-                <button type="submit" id="uploadButton" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700
-                    text-white font-bold py-3 px-8 rounded-full shadow-lg
-                    transform hover:scale-105 transition duration-300 ease-in-out
-                    focus:outline-none focus:ring-4 focus:ring-purple-300">
-                    Upload File
-                </button>
-                <div id="loadingIndicator" class="hidden">
-                    <svg class="animate-spin h-7 w-7 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+            <div id="uploadProgress" class="hidden">
+                <div class="flex justify-between text-sm text-gray-300 mb-2">
+                    <span id="fileName">Preparing upload...</span>
+                    <span id="fileSize">0%</span>
+                </div>
+                <div class="upload-progress">
+                    <div class="progress-bar" id="progressBar"></div>
                 </div>
             </div>
+            
+            <button type="submit" id="uploadButton" class="btn-primary text-white font-medium py-3 px-6 rounded-lg w-full flex items-center justify-center">
+                <i class="fas fa-paper-plane mr-2"></i> Upload File
+            </button>
         </form>
     </div>
 
-    <p align="center" class="mt-8 text-white text-lg font-medium">
-        Source code:
-    </p>
-    <p align="center" class="mt-2">
-        <a href="https://github.com/iyayn-ajah/web-uploadfile-to-github" target="_blank" rel="noopener noreferrer">
-            <img title="Author"
-                src="https://img.shields.io/badge/GITHUB-gray.svg?style=for-the-badge&logo=github"
-                alt="GitHub Repository">
+    <div class="glass-card p-6 w-full max-w-3xl mb-10">
+        <h3 class="text-xl font-semibold text-white text-center mb-6">Why Choose NeoUpload?</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="feature-card text-center">
+                <div class="text-indigo-400 text-3xl mb-3">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h4 class="text-white font-medium mb-2">Secure</h4>
+                <p class="text-gray-300 text-sm">Your files are stored on GitHub's secure infrastructure</p>
+            </div>
+            <div class="feature-card text-center">
+                <div class="text-indigo-400 text-3xl mb-3">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h4 class="text-white font-medium mb-2">Fast</h4>
+                <p class="text-gray-300 text-sm">Quick uploads and downloads with GitHub's CDN</p>
+            </div>
+            <div class="feature-card text-center">
+                <div class="text-indigo-400 text-3xl mb-3">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <h4 class="text-white font-medium mb-2">Unlimited</h4>
+                <p class="text-gray-300 text-sm">No limits on the number of files you can upload</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center text-white">
+        <p class="mb-2">Powered by GitHub</p>
+        <p class="text-sm text-gray-400 mb-4">Source code available on GitHub</p>
+        <a href="https://github.com/iyayn-ajah/web-uploadfile-to-github" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+            <i class="fab fa-github mr-2"></i> View Source
         </a>
-    </p>
-    <center class="mt-8">
-        <audio autoplay="autoplay" controls="controls" src="https://files.catbox.moe/ar2c1c.mp3" class="rounded-lg shadow-md"></audio>
-    </center>
+    </div>
+
+    <div class="fixed bottom-4 right-4">
+        <audio controls class="rounded-full bg-gray-800 bg-opacity-50">
+            <source src="https://files.catbox.moe/ar2c1c.mp3" type="audio/mpeg">
+        </audio>
+    </div>
 
     <script>
         const uploadForm = document.getElementById('uploadForm');
         const uploadButton = document.getElementById('uploadButton');
-        const loadingIndicator = document.getElementById('loadingIndicator');
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const fileInfo = document.getElementById('fileInfo');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const progressBar = document.getElementById('progressBar');
 
-        uploadForm.addEventListener('submit', () => {
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropZone.classList.add('bg-indigo-900', 'bg-opacity-20');
+        }
+
+        function unhighlight() {
+            dropZone.classList.remove('bg-indigo-900', 'bg-opacity-20');
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            updateFileInfo(files[0]);
+        }
+
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                updateFileInfo(this.files[0]);
+            }
+        });
+
+        function updateFileInfo(file) {
+            if (file) {
+                const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
+                fileInfo.innerHTML = `<span class="text-green-300">${file.name}</span> (${fileSizeMB} MB)`;
+                
+                // Show upload progress
+                uploadProgress.classList.remove('hidden');
+                fileName.textContent = file.name;
+                fileSize.textContent = '0%';
+                progressBar.style.width = '0%';
+            }
+        }
+
+        uploadForm.addEventListener('submit', function(e) {
+            const file = fileInput.files[0];
+            if (!file) {
+                e.preventDefault();
+                alert('Please select a file first!');
+                return;
+            }
+
             uploadButton.disabled = true;
-            uploadButton.classList.add('opacity-50', 'cursor-not-allowed'); // Add disabled styling
-            loadingIndicator.classList.remove('hidden');
+            uploadButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Uploading...';
+            
+            // Simulate upload progress
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width += 5;
+                    progressBar.style.width = width + '%';
+                    fileSize.textContent = width + '%';
+                }
+            }, 100);
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('button, a').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const x = e.clientX - e.target.getBoundingClientRect().left;
+                const y = e.clientY - e.target.getBoundingClientRect().top;
+                
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
         });
     </script>
 </body>
