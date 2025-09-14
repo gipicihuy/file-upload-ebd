@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eberardos - Community</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://eberardos.my.id/eberardos.jpg" type="image/jpeg">
+    <meta property="og:title" content="Eberardos - Community since 2021">
+    <meta property="og:description" content="Discover our community, projects, and contacts.">
+    <meta property="og:image" content="https://eberardos.my.id/eberardos.jpg">
+    <meta property="og:url" content="https://eberardos.my.id">
+    <meta property="og:type" content="website">
+    <link href="https://fonts.cdnfonts.com/css/conthrax" rel="stylesheet">
+    <script>
+        // TailwindCSS configuration
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-red': {
+                            500: '#8B0000',
+                            600: '#7A0000',
+                            700: '#690000',
+                            800: '#580000',
+                            900: '#470000',
+                            '900-dark': '#310000'
+                        },
+                        'dark-gray': {
+                            'body': '#1a202c',
+                            'card': '#2d3748',
+                            'text': '#e2e8f0',
+                            'line': '#4a5568'
+                        }
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'conthrax': ['Conthrax', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/css">
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+        }
+        .animated-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animated-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+        #mobile-menu.is-open {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .music-toggle-btn {
+            background-color: #8B0000;
+            color: #fff;
+        }
+        .dark .music-toggle-btn {
+            background-color: #7A0000;
+        }
+        /* --- New CSS for Menu Icon Transition (Reverted to the previous version) --- */
+        .menu-icon {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .menu-icon.closed {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        /* --- New CSS for Theme Toggle Morphing --- */
+        .theme-icon {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .moon-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .dark-mode-active .sun-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(-90deg);
+        }
+        
+        .dark-mode-active .moon-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+    </style>
+</head>
+<body class="font-poppins bg-gray-50 text-gray-800 transition-colors duration-500 dark:bg-dark-gray-body dark:text-dark-gray-text">
+    <nav class="bg-white shadow-md fixed w-full z-10 transition-colors duration-500 ease-in-out dark:bg-dark-gray-body dark:shadow-lg dark:shadow-dark-red-900/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="https://eberardos.my.id/eberardos.jpg" alt="Eberardos Logo" class="h-8 w-8 rounded-full" loading="lazy">
+                    <span class="ml-2 text-xl font-semibold text-dark-red-700 dark:text-dark-red-500">Eberardos</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-dark-red-700 hover:text-dark-red-500 font-medium transition-colors duration-300 transform hover:scale-105 dark:text-dark-red-500">Home</a>
+                    <a href="#about" class="text-gray-600 hover:text-dark-red-500 font-medium transition-colors duration-300 transform hover:scale-105 dark:text-dark-gray-text dark:hover:text-dark-red-500">About</a>
+                    <a href="#admins" class="text-gray-600 hover:text-dark-red-500 font-medium transition-colors duration-300 transform hover:scale-105 dark:text-dark-gray-text dark:hover:text-dark-red-500">Admins</a>
+                    <a href="#projects" class="text-gray-600 hover:text-dark-red-500 font-medium transition-colors duration-300 transform hover:scale-105 dark:text-dark-gray-text dark:hover:text-dark-red-500">Projects</a>
+                    <a href="/ai" class="text-gray-600 hover:text-dark-red-500 font-medium transition-colors duration-300 transform hover:scale-105 dark:text-dark-gray-text dark:hover:text-dark-red-500">AI</a>
+                    <a href="#contact" class="text-gray-600 hover:text-dark-red-500 font-medium transition-colors duration-300 transform hover:scale-105 dark:text-dark-gray-text dark:hover:text-dark-red-500">Contact</a>
+                    <button aria-label="Toggle theme" class="relative w-8 h-8 flex items-center justify-center p-2 rounded-full hover:bg-gray-200 dark:hover:bg-dark-gray-card transition-colors duration-200 theme-toggle">
+                        <svg class="theme-icon sun-icon h-6 w-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v2m0 16v2m8-10h2M2 12h2m15.364-6.364l1.414-1.414M4.222 4.222l-1.414 1.414m15.364 15.364l1.414-1.414M4.222 19.778l-1.414-1.414M12 16a4 4 0 100-8 4 4 0 000 8z" />
+                        </svg>
+                        <svg class="theme-icon moon-icon h-6 w-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="md:hidden flex items-center space-x-2">
+                    <button aria-label="Toggle theme" class="relative w-8 h-8 flex items-center justify-center p-2 rounded-full hover:bg-gray-200 dark:hover:bg-dark-gray-card transition-colors duration-200 theme-toggle">
+                        <svg class="theme-icon sun-icon h-6 w-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v2m0 16v2m8-10h2M2 12h2m15.364-6.364l1.414-1.414M4.222 4.222l-1.414 1.414m15.364 15.364l1.414-1.414M4.222 19.778l-1.414-1.414M12 16a4 4 0 100-8 4 4 0 000 8z" />
+                        </svg>
+                        <svg class="theme-icon moon-icon h-6 w-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                    <button id="menu-toggle" class="relative w-6 h-6 text-gray-600 hover:text-dark-red-700 dark:text-dark-gray-text dark:hover:text-dark-red-500">
+                        <svg id="menu-icon-open" class="menu-icon h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                        <svg id="menu-icon-close" class="menu-icon h-6 w-6 closed" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t transition-colors duration-500 ease-in-out dark:bg-dark-gray-body dark:border-dark-gray-line">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-dark-red-700 dark:text-dark-red-500">Home</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-dark-red-500 dark:text-dark-gray-text dark:hover:text-dark-red-500">About</a>
+                <a href="#admins" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-dark-red-500 dark:text-dark-gray-text dark:hover:text-dark-red-500">Admins</a>
+                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-dark-red-500 dark:text-dark-gray-text dark:hover:text-dark-red-500">Projects</a>
+                <a href="/ai" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-dark-red-500 dark:text-dark-gray-text dark:hover:text-dark-red-500">AI</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-dark-red-500 dark:text-dark-gray-text dark:hover:text-dark-red-500">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-r from-dark-red-700 to-dark-red-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center animated-section">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-conthrax">Eberardos</h1>
+            <p class="text-xl md:text-2xl opacity-90 typing-effect"></p>
+        </div>
+    </section>
+
+    <section id="about" class="py-16 bg-white dark:bg-dark-gray-body">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animated-section">
+            <h2 class="text-3xl font-bold text-center text-dark-red-700 mb-12 transition-colors duration-500 dark:text-dark-red-500">About Our Community</h2>
+            <div class="max-w-3xl mx-auto text-lg text-gray-700 text-center transition-colors duration-500 dark:text-dark-gray-text">
+                <p class="mb-4">Eberardos is a vibrant community founded in 2021 with a passion for technology, collaboration, and innovation.</p>
+                <p>We bring together like-minded individuals to share knowledge, work on exciting projects, and build meaningful connections in a supportive environment.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="admins" class="py-16 bg-gray-100 dark:bg-dark-gray-body">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animated-section">
+            <h2 class="text-3xl font-bold text-center text-dark-red-700 mb-12 transition-colors duration-500 dark:text-dark-red-500">Our Admins</h2>
+            <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden transition-colors duration-500 dark:bg-dark-gray-card dark:border-dark-gray-line">
+                <ul class="divide-y divide-gray-200 dark:divide-dark-gray-line">
+                    <li class="px-6 py-4 transition-transform duration-200 transform hover:scale-105">Nero</li>
+                    <li class="px-6 py-4 transition-transform duration-200 transform hover:scale-105">Givy</li>
+                    <li class="px-6 py-4 transition-transform duration-200 transform hover:scale-105">Ayura</li>
+                    <li class="px-6 py-4 transition-transform duration-200 transform hover:scale-105">Kalz</li>
+                    <li class="px-6 py-4 transition-transform duration-200 transform hover:scale-105">Fanz</li>
+                    <li class="px-6 py-4 transition-transform duration-200 transform hover:scale-105">Zenn1t</li>
+                    <li class="px-6 py-4 transition-transform duration-200 transform hover:scale-105">Rapikuzu</li>
+                    <li class="px-6 py-4 transition-transform duration-200 transform hover:scale-105">Ryanzzer</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-16 bg-white dark:bg-dark-gray-body">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animated-section">
+            <h2 class="text-3xl font-bold text-center text-dark-red-700 mb-12 transition-colors duration-500 dark:text-dark-red-500">Our Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 transition-colors duration-500 dark:bg-dark-gray-card dark:border-dark-gray-line">
+                    <h3 class="text-xl font-semibold text-dark-red-700 mb-3 transition-colors duration-500 dark:text-dark-red-500">Chat Room</h3>
+                    <p class="text-gray-600 mb-2 transition-colors duration-500 dark:text-dark-gray-text">Real-time communication platform for our community members.</p>
+                    <p class="text-sm text-gray-400 mb-4 transition-colors duration-500 dark:text-dark-gray-text">Created July 27, 2025</p>
+                    <a href="https://chat.eberardos.my.id" target="_blank" class="inline-block px-4 py-2 bg-dark-red-600 text-white rounded-md hover:bg-dark-red-700 transition-colors duration-500 transform hover:scale-105 dark:bg-dark-red-500 dark:hover:bg-dark-red-600">Visit Project</a>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 transition-colors duration-500 dark:bg-dark-gray-card dark:border-dark-gray-line">
+                    <h3 class="text-xl font-semibold text-dark-red-700 mb-3 transition-colors duration-500 dark:text-dark-red-500">File Upload</h3>
+                    <p class="text-gray-600 mb-4 transition-colors duration-500 dark:text-dark-gray-text">Secure file sharing service for our community.</p>
+                    <p class="text-sm text-gray-400 mb-4 transition-colors duration-500 dark:text-dark-gray-text">Created Sep 7, 2025</p>
+                    <a href="https://upload.eberardos.my.id" target="_blank" class="inline-block px-4 py-2 bg-dark-red-600 text-white rounded-md hover:bg-dark-red-700 transition-colors duration-500 transform hover:scale-105 dark:bg-dark-red-500 dark:hover:bg-dark-red-600">Visit Project</a>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 transition-colors duration-500 dark:bg-dark-gray-card dark:border-dark-gray-line">
+                    <h3 class="text-xl font-semibold text-dark-red-700 mb-3 transition-colors duration-500 dark:text-dark-red-500">Gallery</h3>
+                    <p class="text-gray-600 mb-4 transition-colors duration-500 dark:text-dark-gray-text">eberardos gallery is a photo uploaded by eberardos members</p>
+                    <p class="text-sm text-gray-400 mb-4 transition-colors duration-500 dark:text-dark-gray-text">Created Aug 21, 2025</p>
+                    <a href="https://gallery.eberardos.my.id" target="_blank" class="inline-block px-4 py-2 bg-dark-red-600 text-white rounded-md hover:bg-dark-red-700 transition-colors duration-500 transform hover:scale-105 dark:bg-dark-red-500 dark:hover:bg-dark-red-600">Visit Project</a>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 transition-colors duration-500 dark:bg-dark-gray-card dark:border-dark-gray-line">
+                    <h3 class="text-xl font-semibold text-dark-red-700 mb-3 transition-colors duration-500 dark:text-dark-red-500">Eberardos AI</h3>
+                    <p class="text-gray-600 mb-4 transition-colors duration-500 dark:text-dark-gray-text">Chat with ai eberardos but it's still being developed, not as cool as general ai yet</p>
+                <p class="text-sm text-gray-400 mb-4 transition-colors duration-500 dark:text-dark-gray-text">Created Sep 14, 2025</p>
+                    <a href="https://ai.eberardos.my.id" target="_blank" class="inline-block px-4 py-2 bg-dark-red-600 text-white rounded-md hover:bg-dark-red-700 transition-colors duration-500 transform hover:scale-105 dark:bg-dark-red-500 dark:hover:bg-dark-red-600">Visit Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 bg-gray-100 dark:bg-dark-gray-body">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animated-section">
+            <h2 class="text-3xl font-bold text-center text-dark-red-700 mb-12 transition-colors duration-500 dark:text-dark-red-500">Contact Us</h2>
+            <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md transition-colors duration-500 dark:bg-dark-gray-card">
+                <p class="text-lg text-gray-700 mb-6 text-center transition-colors duration-500 dark:text-dark-gray-text">Get in touch with us through the following channels:</p>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <svg class="h-6 w-6 text-dark-red-700 mr-3 transition-colors duration-500 dark:text-dark-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="transition-colors duration-500 dark:text-dark-gray-text">Email: eberardos@protonmail.com</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="h-6 w-6 text-dark-red-700 mr-3 transition-colors duration-500 dark:text-dark-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span class="transition-colors duration-500 dark:text-dark-gray-text">Discord: Eberardos Community</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark-red-900 text-white py-8 transition-colors duration-500 dark:bg-dark-red-900-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>© 2021 - 2025 Eberardos Community</p>
+        </div>
+    </footer>
+
+    <audio id="background-music" src="lagu.mp3" loop preload="auto"></audio>
+    <button id="music-toggle" aria-label="Toggle music" class="music-toggle-btn fixed bottom-4 right-4 z-50 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110">
+        <svg id="play-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+        </svg>
+        <svg id="pause-icon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+        </svg>
+    </button>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIconOpen = document.getElementById('menu-icon-open');
+        const menuIconClose = document.getElementById('menu-icon-close');
+
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', function() {
+                if (mobileMenu.classList.contains('hidden')) {
+                    // Open menu
+                    mobileMenu.classList.remove('hidden');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('is-open');
+                    }, 10);
+                    
+                    // Switch icons smoothly
+                    menuIconOpen.classList.add('closed');
+                    menuIconClose.classList.remove('closed');
+                } else {
+                    // Close menu
+                    mobileMenu.classList.remove('is-open');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                    
+                    // Switch icons smoothly
+                    menuIconOpen.classList.remove('closed');
+                    menuIconClose.classList.add('closed');
+                }
+            });
+        }
+
+        // Theme toggle logic
+        const themeToggles = document.querySelectorAll('.theme-toggle');
+
+        // Function to apply the theme
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                themeToggles.forEach(btn => btn.classList.add('dark-mode-active'));
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeToggles.forEach(btn => btn.classList.remove('dark-mode-active'));
+            }
+        }
+
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const initialTheme = savedTheme || systemTheme;
+        applyTheme(initialTheme);
+
+        // Event listeners for theme toggle buttons
+        themeToggles.forEach(button => {
+            button.addEventListener('click', () => {
+                const newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+        });
+
+        // Section animation on scroll
+        const sections = document.querySelectorAll('.animated-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Add 'is-visible' to Hero section immediately
+        document.querySelector('#home .animated-section').classList.add('is-visible');
+
+        // --- Music Player Script with Toggle Button ---
+        const backgroundMusic = document.getElementById('background-music');
+        const musicToggle = document.getElementById('music-toggle');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+
+        let isPlaying = false;
+
+        if (musicToggle) {
+            musicToggle.addEventListener('click', () => {
+                if (isPlaying) {
+                    backgroundMusic.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                } else {
+                    backgroundMusic.play().catch(error => {
+                        console.error("Audio playback failed:", error);
+                    });
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                }
+                isPlaying = !isPlaying;
+            });
+        }
+        
+        // --- Typing Effect Script ---
+        const typingTextElement = document.querySelector('.typing-effect');
+        const textToType = "A community established in 2021";
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (charIndex < textToType.length) {
+                typingTextElement.textContent += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(typeWriter, 1000); 
+        });
+    </script>
+</body>
+</html>
