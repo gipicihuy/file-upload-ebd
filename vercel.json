@@ -1,12 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/public/$1"
+      "source": "/files/(.*)",
+      "destination": "/public/files/$1"
     },
     {
-      "source": "/upload",
-      "destination": "/index.js"
+      "source": "/(.*)",
+      "destination": "/public/$1"
     }
   ]
 }
