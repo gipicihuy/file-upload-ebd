@@ -32,7 +32,7 @@ app.post('/upload', async (req, res) => {
   let mimeType = mime.lookup(uploadedFile.name);
   let fileName = `${Date.now()}-${uploadedFile.name.replace(/\s+/g, '-')}`;
   // Mengubah direktori unggahan dari 'uploads' menjadi 'files'
-  let filePath = `files/${fileName}`;
+  let filePath = `public/files/${fileName}`;
   let base64Content = Buffer.from(uploadedFile.data).toString('base64');
 
   try {
