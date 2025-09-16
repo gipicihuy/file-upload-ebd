@@ -20,19 +20,19 @@ console.log("Server started with new design");
 app.use(fileUpload());
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Tambahkan rute ini untuk menampilkan file yang diunggah
-app.get('/files/:fileName', (req, res) => {
-  const fileName = req.params.fileName;
-  const filePath = path.join(__dirname, 'public/files', fileName);
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      res.status(404).send('File not found.');
-    }
-  });
-});
+// Rute ini tidak diperlukan lagi karena kita akan menggunakan URL mentah dari GitHub
+// app.get('/files/:fileName', (req, res) => {
+//   const fileName = req.params.fileName;
+//   const filePath = path.join(__dirname, 'public/files', fileName);
+//   res.sendFile(filePath, (err) => {
+//     if (err) {
+//       res.status(404).send('File not found.');
+//     }
+//   });
+// });
 
 app.post('/upload', async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -42,8 +42,7 @@ app.post('/upload', async (req, res) => {
   let uploadedFile = req.files.file;
   let mimeType = mime.lookup(uploadedFile.name);
   let fileName = `${Date.now()}-${uploadedFile.name.replace(/\s+/g, '-')}`;
-  // Mengubah direktori unggahan dari 'uploads' menjadi 'files'
-  let filePath = `public/files/${fileName}`;
+  let filePath = `files/${fileName}`;
   let base64Content = Buffer.from(uploadedFile.data).toString('base64');
 
   try {
@@ -58,9 +57,9 @@ app.post('/upload', async (req, res) => {
       },
     });
 
-    // Mengubah URL agar menggunakan domain kustom dan folder 'files'
-    let rawUrl = `https://upload.eberardos.my.id/files/${fileName}`;
-    let downloadUrl = `https://upload.eberardos.my.id/files/${fileName}`;
+    // Ubah URL agar menggunakan URL langsung dari GitHub
+    let rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
+    let downloadUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
     
     res.send(`
     <!DOCTYPE html>
