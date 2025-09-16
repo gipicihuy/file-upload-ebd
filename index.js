@@ -20,7 +20,7 @@ console.log("Server started with new design");
 app.use(fileUpload());
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 app.post('/upload', async (req, res) => {
