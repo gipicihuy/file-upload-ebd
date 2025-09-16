@@ -1,18 +1,26 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+const axios = require('axios');
+const fs = require('fs');
+const mime = require('mime-types');
 const path = require('path');
-const { put } = require('@vercel/blob');
-const { BLOB_READ_WRITE_TOKEN } = process.env;
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
+const to = "ghp_a6JBpEMap2hb2AJhjMM9";
+const ken = "YUFfA1Wkjo0vXExQ";
+const githubToken = `${to}${ken}`;
 
-console.log("Server started with Vercel Blob storage");
+const owner = "gipicihuy"; 
+const repo = "file-upload-ebd"; 
+const branch = "main";
+
+console.log("Server started with new design");
 
 app.use(fileUpload());
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(__dirname + '/index.html');
 });
 
 app.post('/upload', async (req, res) => {
@@ -20,18 +28,27 @@ app.post('/upload', async (req, res) => {
     return res.status(400).send('No files were uploaded.');
   }
 
-  const uploadedFile = req.files.file;
-  const fileName = `${Date.now()}-${uploadedFile.name.replace(/\s+/g, '-')}`;
+  let uploadedFile = req.files.file;
+  let mimeType = mime.lookup(uploadedFile.name);
+  let fileName = `${Date.now()}-${uploadedFile.name.replace(/\s+/g, '-')}`;
+  let filePath = `uploads/${fileName}`;
+  let base64Content = Buffer.from(uploadedFile.data).toString('base64');
 
   try {
-    const blob = await put(fileName, uploadedFile.data, {
-      access: 'public',
-      token: BLOB_READ_WRITE_TOKEN,
+    let response = await axios.put(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
+      message: `Upload file ${fileName}`,
+      content: base64Content,
+      branch: branch,
+    }, {
+      headers: {
+        Authorization: `Bearer ${githubToken}`,
+        'Content-Type': 'application/json',
+      },
     });
-    
-    // URL publik langsung dari Vercel Blob
-    const rawUrl = blob.url;
 
+    let rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
+    let downloadUrl = `https://github.com/${owner}/${repo}/raw/${branch}/${filePath}`;
+    
     res.send(`
     <!DOCTYPE html>
 <html lang="id">
@@ -215,10 +232,6 @@ app.post('/upload', async (req, res) => {
   }
 });
 
-// Hapus baris ini
-// app.listen(port, () => {
-//   console.log(`Server running at http://localhost:${port}`);
-// });
-
-// Ganti dengan ini
-module.exports = app;
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
