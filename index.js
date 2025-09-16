@@ -31,7 +31,8 @@ app.post('/upload', async (req, res) => {
   let uploadedFile = req.files.file;
   let mimeType = mime.lookup(uploadedFile.name);
   let fileName = `${Date.now()}-${uploadedFile.name.replace(/\s+/g, '-')}`;
-  let filePath = `uploads/${fileName}`;
+  // Mengubah direktori unggahan dari 'uploads' menjadi 'files'
+  let filePath = `files/${fileName}`;
   let base64Content = Buffer.from(uploadedFile.data).toString('base64');
 
   try {
@@ -46,8 +47,9 @@ app.post('/upload', async (req, res) => {
       },
     });
 
-    let rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
-    let downloadUrl = `https://github.com/${owner}/${repo}/raw/${branch}/${filePath}`;
+    // Mengubah URL agar menggunakan domain kustom dan folder 'files'
+    let rawUrl = `https://upload.eberardos.my.id/files/${fileName}`;
+    let downloadUrl = `https://upload.eberardos.my.id/files/${fileName}`;
     
     res.send(`
     <!DOCTYPE html>
