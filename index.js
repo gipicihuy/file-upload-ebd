@@ -11,8 +11,8 @@ const to = "ghp_a6JBpEMap2hb2AJhjMM9";
 const ken = "YUFfA1Wkjo0vXExQ";
 const githubToken = `${to}${ken}`;
 
-const owner = "gipicihuy"; 
-const repo = "file-upload-ebd"; 
+const owner = "gipicihuy";
+const repo = "file-upload-ebd";
 const branch = "main";
 
 console.log("Server started with new design");
@@ -21,6 +21,17 @@ app.use(fileUpload());
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
+});
+
+// Tambahkan rute ini untuk menampilkan file yang diunggah
+app.get('/files/:fileName', (req, res) => {
+  const fileName = req.params.fileName;
+  const filePath = path.join(__dirname, 'public/files', fileName);
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      res.status(404).send('File not found.');
+    }
+  });
 });
 
 app.post('/upload', async (req, res) => {
