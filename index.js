@@ -1,21 +1,13 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
-const axios = require('axios');
-const fs = require('fs');
-const mime = require('mime-types');
 const path = require('path');
+const { put } = require('@vercel/blob');
+const { BLOB_READ_WRITE_TOKEN } = process.env;
 
 const app = express();
-const port = 3000;
-const to = "ghp_a6JBpEMap2hb2AJhjMM9";
-const ken = "YUFfA1Wkjo0vXExQ";
-const githubToken = `${to}${ken}`;
+const port = process.env.PORT || 3000;
 
-const owner = "gipicihuy";
-const repo = "file-upload-ebd";
-const branch = "main";
-
-console.log("Server started with new design");
+console.log("Server started with Vercel Blob storage");
 
 app.use(fileUpload());
 
@@ -23,44 +15,23 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Rute ini tidak diperlukan lagi karena kita akan menggunakan URL mentah dari GitHub
-// app.get('/files/:fileName', (req, res) => {
-//   const fileName = req.params.fileName;
-//   const filePath = path.join(__dirname, 'public/files', fileName);
-//   res.sendFile(filePath, (err) => {
-//     if (err) {
-//       res.status(404).send('File not found.');
-//     }
-//   });
-// });
-
 app.post('/upload', async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
 
-  let uploadedFile = req.files.file;
-  let mimeType = mime.lookup(uploadedFile.name);
-  let fileName = `${Date.now()}-${uploadedFile.name.replace(/\s+/g, '-')}`;
-  let filePath = `files/${fileName}`;
-  let base64Content = Buffer.from(uploadedFile.data).toString('base64');
+  const uploadedFile = req.files.file;
+  const fileName = `${Date.now()}-${uploadedFile.name.replace(/\s+/g, '-')}`;
 
   try {
-    let response = await axios.put(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
-      message: `Upload file ${fileName}`,
-      content: base64Content,
-      branch: branch,
-    }, {
-      headers: {
-        Authorization: `Bearer ${githubToken}`,
-        'Content-Type': 'application/json',
-      },
+    const blob = await put(fileName, uploadedFile.data, {
+      access: 'public',
+      token: BLOB_READ_WRITE_TOKEN,
     });
-
-    // Ubah URL agar menggunakan URL langsung dari GitHub
-    let rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
-    let downloadUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
     
+    // URL publik langsung dari Vercel Blob
+    const rawUrl = blob.url;
+
     res.send(`
     <!DOCTYPE html>
 <html lang="id">
